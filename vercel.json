@@ -1,0 +1,16 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "server.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      { "src": "/auth/(.*)", "dest": "server.js" },
+      { "src": "/data/(.*)", "dest": "server.js" },
+      { "src": "/profile", "dest": "server.js" },
+      { "src": "/create-order", "dest": "server.js" }
+    ]
+  }
+  

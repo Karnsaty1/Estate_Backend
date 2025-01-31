@@ -21,7 +21,7 @@ const razorpay = new Razorpay({
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173', 
+  origin: process.env.FRONT_END, 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
@@ -40,7 +40,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_SECRET,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://localhost:8080/auth/google/callback',
+  callbackURL: `${process.env.VITE_BACKEND_API}/auth/google/callback`,
 }, (accessToken, refreshToken, profile, done) => {
   console.log(profile);  
   return done(null, profile);
@@ -52,6 +52,10 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((user, done) => {
   done(null, user);
+});
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the Estate Backend API!');
 });
 
 app.get('/auth/google', passport.authenticate('google', {
